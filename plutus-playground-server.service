@@ -1,0 +1,6 @@
+[Unit]
+Description=Plutus Playground server
+PartOf=plutus-playground.service
+
+[Service]
+ExecStart=%h/.local/bin/plutus-playground.sh server

@@ -1,0 +1,6 @@
+[Unit]
+Description=Plutus Playground client
+Requires=plutus-playground-server.service
+
+[Service]
+ExecStart=%h/.local/bin/plutus-playground.sh client
