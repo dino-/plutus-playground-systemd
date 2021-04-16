@@ -32,8 +32,6 @@ startServer () {
 }
 
 
-# echo "$1"
-
 case "$1" in
   server) startServer server "plutus-playground-server";;
   client) startServer client "npm run start";;
