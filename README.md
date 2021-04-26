@@ -53,7 +53,7 @@ If you have `plutus` set up correctly, here's the start-up procedure
 
 Starting the `plutus-playground` service will take some time, especially the
 first time and after `nix-build`, even though the systemd status says it's
-started. You can use the journalctl to keep an eye on it.
+started. You can use the journal to keep an eye on it.
 
     journalctl --user -u plutus-playground -f
 
@@ -75,7 +75,7 @@ If you'd like to view the output of the `plutus-playground-server` service
 
 ### Updating your `plutus` repository
 
-When changes need to be pulled from `plutus`' upstream, follow this procedure:
+When changes need to be pulled from `plutus` upstream, follow this procedure:
 
     systemctl --user stop plutus-playground
     cd plutus  # if you're not in the dir already
