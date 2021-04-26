@@ -33,12 +33,13 @@ startServer () {
   systemNixProfilePath="/etc/profile.d/nix.sh"
   userNixProfilePath="$HOME/.nix-profile${systemNixProfilePath}"
 
+  # shellcheck disable=SC1090
   if [ -f "$systemNixProfilePath" ]; then . "$systemNixProfilePath"
   elif [ -f "$userNixProfilePath" ]; then . "$userNixProfilePath"
   else die 1 "Can't continue because Nix environment script not found at either $systemNixProfilePath or $userNixProfilePath"
   fi
 
-  cd "$plutusPlaygroundDir"
+  cd "$plutusPlaygroundDir" || die 1 "Can't continue because I can't cd to the $plutusPlaygroundDir directory"
   nix-shell --run "cd plutus-playground-${service} && ${cmd} 2>&1"
 }
 
