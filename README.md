@@ -17,8 +17,8 @@ that use systemd like Ubuntu, most Debians, Arch Linux, etc.
 
 Copy the script to your home
 
-    $ mkdir -p $HOME/.local/bin
-    $ cp plutus-playground.sh $HOME/.local/bin
+    mkdir -p $HOME/.local/bin
+    cp plutus-playground.sh $HOME/.local/bin
 
 Edit the `plutusPlaygroundDir` variable near the top of the script to the path
 where you cloned `plutus`, it looks something like this
@@ -27,36 +27,36 @@ where you cloned `plutus`, it looks something like this
 
 Copy the unit files
 
-    $ mkdir -p $HOME/.config/systemd/user
-    $ cp plutus-playground{,-server}.service $HOME/.config/systemd/user
+    mkdir -p $HOME/.config/systemd/user
+    cp plutus-playground{,-server}.service $HOME/.config/systemd/user
 
 Reload the systemd daemon
 
-    $ systemctl --user daemon-reload
+    systemctl --user daemon-reload
 
 
 ## Use
 
 Before starting these the first time you will need to have performed the
-`plutus` set-up and gotten past this point:
+`plutus` set-up and gotten past this point (in the `plutus` directory):
 
-    [plutus]$ nix build -f default.nix plutus.haskell.packages.plutus-core
+    nix build -f default.nix plutus.haskell.packages.plutus-core
 
 For more info on getting to this point, please see
 [Plutus Community Documentation - Ubuntu setup](https://docs.plutus-community.com/docs/setup/Ubuntu.html)
 
 Starting the playground
 
-    $ systemctl --user start plutus-playground
+    systemctl --user start plutus-playground
 
 Stopping the playground (this will also stop the plutus-playground-server)
 
-    $ systemctl --user stop plutus-playground
+    systemctl --user stop plutus-playground
 
 View logs
 
-    $ journalctl --user -u plutus-playground-server -f
-    $ journalctl --user -u plutus-playground -f
+    journalctl --user -u plutus-playground-server -f
+    journalctl --user -u plutus-playground -f
 
 
 ## Contact
