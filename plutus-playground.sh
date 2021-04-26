@@ -18,11 +18,26 @@ v1.1  2021-04-16  Dino Morelli <dino@ui3.info>
 USAGE
 )
 
+
+die () {
+  rc="$1"
+  shift
+  echo "$basename:" "$@" >&2
+  exit "$rc"
+}
+
 startServer () {
   service="$1"
   cmd="$2"
 
-  . $HOME/.nix-profile/etc/profile.d/nix.sh
+  systemNixProfilePath="/etc/profile.d/nix.sh"
+  userNixProfilePath="$HOME/.nix-profile${systemNixProfilePath}"
+
+  if [ -f "$systemNixProfilePath" ]; then . "$systemNixProfilePath"
+  elif [ -f "$userNixProfilePath" ]; then . "$userNixProfilePath"
+  else die 1 "Can't continue because Nix environment script not found at either $systemNixProfilePath or $userNixProfilePath"
+  fi
+
   cd "$plutusPlaygroundDir"
   nix-shell --run "cd plutus-playground-${service} && ${cmd} 2>&1"
 }
