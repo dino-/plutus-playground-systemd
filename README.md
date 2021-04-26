@@ -10,7 +10,8 @@ systemd service units to manage the Plutus Playground server and client
 
 This project was made to assist Plutus contract developers with running the
 local Plutus Playground server and client. It's useful for Linux distributions
-that use systemd like Ubuntu, most Debians, Arch Linux, etc.
+that use systemd like Ubuntu, most Debians, Arch Linux, etc. We also have
+reports this works with WSL2 and Ubuntu if systemd is set up.
 
 
 ## Installation
@@ -35,29 +36,53 @@ Reload the systemd daemon
     systemctl --user daemon-reload
 
 
-## Use
+## Usage
 
-Before starting these the first time you will need to have performed the
-`plutus` set-up and gotten past this point (in the `plutus` directory):
-
-    nix build -f default.nix plutus.haskell.packages.plutus-core
+Before starting the first time you will need to have performed the `plutus`
+set-up and gotten past the `nix-build -f ...` point.
 
 For more info on getting to this point, please see
 [Plutus Community Documentation - Ubuntu setup](https://docs.plutus-community.com/docs/setup/Ubuntu.html)
 
-Starting the playground
+If you have `plutus` set up correctly, here's the start-up procedure
 
+    cd plutus  # if you're not in the dir already
+    git checkout <commit hash required for plutus-pioneer-program>  # May not be required
+    nix build -f default.nix plutus.haskell.packages.plutus-core
     systemctl --user start plutus-playground
 
-Stopping the playground (this will also stop the plutus-playground-server)
+Starting the `plutus-playground` service will take some time, especially the
+first time and after `nix-build`, even though the systemd status says it's
+started. You can use the journalctl to keep an eye on it.
+
+    journalctl --user -u plutus-playground -f
+
+When you see a line like this in the journal, it's operational:
+
+    Apr 26 10:20:34 ubuntu1 plutus-playground.sh[9553]: i [wdm]: Compiled successfully.
+
+You should now be able to access the playground at <https://localhost:8009>
+
+Stopping the playground will automatically stop the `plutus-playground-server`
+service
 
     systemctl --user stop plutus-playground
 
-View logs
+If you'd like to view the output of the `plutus-playground-server` service
+(which is different than the client):
 
     journalctl --user -u plutus-playground-server -f
-    journalctl --user -u plutus-playground -f
 
+### Updating your `plutus` repository
+
+When changes need to be pulled from `plutus`' upstream, follow this procedure:
+
+    systemctl --user stop plutus-playground
+    cd plutus  # if you're not in the dir already
+    git pull
+    git checkout <commit hash required for plutus-pioneer-program>  # May not be required
+    nix build -f default.nix plutus.haskell.packages.plutus-core
+    systemctl --user start plutus-playground
 
 ## Contact
 
