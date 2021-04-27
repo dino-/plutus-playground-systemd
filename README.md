@@ -44,16 +44,13 @@ set-up and gotten past the `nix-build -f ...` point.
 For more info on getting to this point, please see
 [Plutus Community Documentation - Ubuntu setup](https://docs.plutus-community.com/docs/setup/Ubuntu.html)
 
-If you have `plutus` set up correctly, here's the start-up procedure
+Starting the service is simple
 
-    cd plutus  # if you're not in the dir already
-    git checkout <commit hash required for plutus-pioneer-program>  # May not be required
-    nix build -f default.nix plutus.haskell.packages.plutus-core
     systemctl --user start plutus-playground
 
-Starting the `plutus-playground` service will take some time, especially the
-first time and after `nix-build`, even though the systemd status says it's
-started. You can use the journal to keep an eye on it.
+This start-up may take some time, especially the first time and after doing a
+`nix-build`, even though the systemd status says it's started. You can use the
+journal to keep an eye on it.
 
     journalctl --user -u plutus-playground -f
 
@@ -75,7 +72,8 @@ If you'd like to view the output of the `plutus-playground-server` service
 
 ### Updating your `plutus` repository
 
-When changes need to be pulled from `plutus` upstream, follow this procedure:
+When upstraem changes need to be pulled into your Plutus Playground, follow
+this procedure:
 
     systemctl --user stop plutus-playground
     cd plutus  # if you're not in the dir already
