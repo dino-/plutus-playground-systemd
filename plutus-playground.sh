@@ -13,7 +13,7 @@ usage:
   $basename -h
   $basename --help
 
-v1.1  2021-04-16  Dino Morelli <dino@ui3.info>
+v1.2  2021-04-27  Dino Morelli <dino@ui3.info>
 
 USAGE
 )
